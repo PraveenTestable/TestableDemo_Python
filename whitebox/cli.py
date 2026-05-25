@@ -14,7 +14,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Whitebox repo demo CLI")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("initial-run", help="Run Whitebox initial profiling for all languages")
+    sub.add_parser("initial-run", help="Run Whitebox initial profiling for Python")
 
     commit_parser = sub.add_parser("on-commit", help="Simulate commit trigger / score update")
     commit_parser.add_argument("--commit-sha", default="local-commit", help="Commit SHA for the trigger")

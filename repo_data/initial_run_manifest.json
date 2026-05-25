@@ -1,31 +1,11 @@
 {
-  "run_id": "wb-initial-20260525113820",
+  "run_id": "wb-initial-20260525115259",
   "run_type": "initial",
   "languages": [
-    "csharp",
-    "go",
-    "java",
-    "javascript",
     "python"
   ],
-  "generated_at": "2026-05-25T11:38:20.888064+00:00",
+  "generated_at": "2026-05-25T11:52:59.261179+00:00",
   "snapshots": {
-    "csharp": {
-      "initial_run": "repo_data/initial_run/csharp.json",
-      "current": "repo_data/current/csharp.json"
-    },
-    "go": {
-      "initial_run": "repo_data/initial_run/go.json",
-      "current": "repo_data/current/go.json"
-    },
-    "java": {
-      "initial_run": "repo_data/initial_run/java.json",
-      "current": "repo_data/current/java.json"
-    },
-    "javascript": {
-      "initial_run": "repo_data/initial_run/javascript.json",
-      "current": "repo_data/current/javascript.json"
-    },
     "python": {
       "initial_run": "repo_data/initial_run/python.json",
       "current": "repo_data/current/python.json"

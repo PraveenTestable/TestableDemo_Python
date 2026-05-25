@@ -1,11 +1,11 @@
-# Whitebox Repo Demo — Control Flow Metrics
+# Whitebox Repo Demo — Control Flow Metrics (Python)
 
-Sample Python repository for **Testable Whitebox initial run** and **commit-triggered score updates**.
+Sample **Python-only** repository for **Testable Whitebox initial run** and **commit-triggered score updates**.
 
 ## Scenario
 
-1. **Initial run** — Profile the repo, detect languages, compute Control Flow metrics, and persist per-language snapshot under `repo_data/initial_run/`.
-2. **Commit trigger** — On each commit, re-profile changed files, update `repo_data/current/`, recompute metric deltas, and append to `repo_data/score_history.json`.
+1. **Initial run** — Profile the repo, compute Control Flow metrics, and persist a snapshot under `repo_data/initial_run/python.json`.
+2. **Commit trigger** — On each commit, re-profile changed files, update `repo_data/current/python.json`, recompute metric deltas, and append to `repo_data/score_history.json`.
 
 ## Control Flow Metrics
 
@@ -18,13 +18,9 @@ Sample Python repository for **Testable Whitebox initial run** and **commit-trig
 | Technical Debt Impact | `technical_debt_impact` | Control-flow complexity debt (inverse score) |
 | QA Resource Allocation | `qa_resource_allocation` | Estimated QA effort vs. coverage gained |
 
-## Languages (initial run data)
+## Sample code
 
 - Python (`sample_code/python/`)
-- Java (`sample_code/java/`)
-- JavaScript (`sample_code/javascript/`)
-- Go (`sample_code/go/`)
-- C# (`sample_code/csharp/`)
 
 ## Quick start
 
@@ -33,13 +29,13 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# Whitebox initial run (all languages)
+# Whitebox initial run (Python)
 python -m whitebox.cli initial-run
 
 # Simulate commit webhook / post-commit trigger
 python -m whitebox.cli on-commit --commit-sha HEAD
 
-# Run tests (shows known bug vs. fix)
+# Run tests
 pytest tests/ -v
 ```
 

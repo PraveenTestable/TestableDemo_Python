@@ -1,4 +1,4 @@
-"""Repository profiling and per-language repo data generation."""
+"""Repository profiling and Python repo data generation."""
 
 from __future__ import annotations
 
@@ -13,72 +13,49 @@ from whitebox.metrics import METRIC_LABELS, compute_composite_score, compute_met
 ROOT = Path(__file__).resolve().parent.parent
 SAMPLE_CODE_DIR = ROOT / "sample_code"
 REPO_DATA_DIR = ROOT / "repo_data"
+PYTHON_SAMPLE_DIR = SAMPLE_CODE_DIR / "python"
+SUPPORTED_LANGUAGE = "python"
 
-LANGUAGE_EXTENSIONS: dict[str, tuple[str, ...]] = {
-    "python": (".py",),
-    "java": (".java",),
-    "javascript": (".js",),
-    "go": (".go",),
-    "csharp": (".cs",),
-}
+BRANCH_PATTERN = r"\b(if|elif|for|while|except)\b"
+LOGICAL_PATTERN = r"(\band\b|\bor\b|\bnot\b)"
+ASSERT_PATTERN = r"\bassert\b"
 
 
 def detect_languages(base_dir: Path | None = None) -> list[str]:
-    base = base_dir or SAMPLE_CODE_DIR
-    found: set[str] = set()
-    for language, extensions in LANGUAGE_EXTENSIONS.items():
-        lang_dir = base / language
-        if not lang_dir.exists():
-            continue
-        if any(lang_dir.rglob(f"*{ext}") for ext in extensions):
-            found.add(language)
-    return sorted(found)
+    """Return supported languages found under sample_code (Python only)."""
+    lang_dir = (base_dir or SAMPLE_CODE_DIR) / SUPPORTED_LANGUAGE
+    if lang_dir.exists() and any(lang_dir.rglob("*.py")):
+        return [SUPPORTED_LANGUAGE]
+    return []
 
 
 def _count_pattern(text: str, pattern: str) -> int:
     return len(re.findall(pattern, text, flags=re.MULTILINE))
 
 
-def profile_language(language: str, base_dir: Path | None = None) -> dict[str, Any]:
-    """Build a deterministic language profile from sample source files."""
-    base = base_dir or SAMPLE_CODE_DIR
-    lang_dir = base / language
-    extensions = LANGUAGE_EXTENSIONS[language]
+def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None = None) -> dict[str, Any]:
+    """Build a deterministic Python profile from sample source files."""
+    if language != SUPPORTED_LANGUAGE:
+        raise ValueError(f"Unsupported language: {language}")
+
+    lang_dir = (base_dir or SAMPLE_CODE_DIR) / SUPPORTED_LANGUAGE
 
     files: list[str] = []
     contents: list[str] = []
-    for ext in extensions:
-        for path in lang_dir.rglob(f"*{ext}"):
-            files.append(str(path.relative_to(ROOT)))
-            contents.append(path.read_text(encoding="utf-8"))
+    for path in lang_dir.rglob("*.py"):
+        files.append(str(path.relative_to(ROOT)))
+        contents.append(path.read_text(encoding="utf-8"))
 
     merged = "\n".join(contents)
     loc = sum(1 for line in merged.splitlines() if line.strip())
 
-    branch_patterns = {
-        "python": r"\b(if|elif|for|while|except)\b",
-        "java": r"\b(if|else if|for|while|catch|switch|case)\b",
-        "javascript": r"\b(if|else if|for|while|catch|switch|case)\b",
-        "go": r"\b(if|for|switch|case|select)\b",
-        "csharp": r"\b(if|else if|for|while|catch|switch|case)\b",
-    }
-    logical_patterns = {
-        "python": r"(\band\b|\bor\b|\bnot\b)",
-        "java": r"(&&|\|\||!)",
-        "javascript": r"(&&|\|\||!)",
-        "go": r"(&&|\|\||!)",
-        "csharp": r"(&&|\|\||!)",
-    }
-
-    branch_points = _count_pattern(merged, branch_patterns[language])
-    logical_subexpressions = max(1, _count_pattern(merged, logical_patterns[language]))
+    branch_points = _count_pattern(merged, BRANCH_PATTERN)
+    logical_subexpressions = max(1, _count_pattern(merged, LOGICAL_PATTERN))
     decision_nodes = branch_points + _count_pattern(merged, r"\bswitch\b|\bcase\b")
     execution_paths = max(1, branch_points + 1)
     truth_table_rows = min(64, 2 ** min(decision_nodes, 6))
 
-    test_assertions = _count_pattern(
-        merged, r"\b(assert|Assert|expect\(|require\.|t\.Run|assertEqual)\b"
-    )
+    test_assertions = _count_pattern(merged, ASSERT_PATTERN)
     verification_ratio = min(1.0, test_assertions / max(decision_nodes, 1))
 
     verified_decisions = min(
@@ -123,7 +100,7 @@ def profile_language(language: str, base_dir: Path | None = None) -> dict[str, A
     return profile
 
 
-def build_language_repo_data(language: str, run_type: str = "initial") -> dict[str, Any]:
+def build_language_repo_data(language: str = SUPPORTED_LANGUAGE, run_type: str = "initial") -> dict[str, Any]:
     profile = profile_language(language)
     metrics = compute_metrics_from_profile(profile)
     composite = compute_composite_score(metrics)
@@ -139,7 +116,7 @@ def build_language_repo_data(language: str, run_type: str = "initial") -> dict[s
     }
 
 
-def write_repo_data(language: str, target: str, run_type: str = "initial") -> Path:
+def write_repo_data(language: str = SUPPORTED_LANGUAGE, target: str = "initial", run_type: str = "initial") -> Path:
     """Persist repo data under repo_data/{target}/{language}.json."""
     out_dir = REPO_DATA_DIR / target
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -150,10 +127,10 @@ def write_repo_data(language: str, target: str, run_type: str = "initial") -> Pa
 
 
 def run_initial_whitebox() -> dict[str, Any]:
-    """Whitebox initial run: profile all languages and write baseline + current snapshots."""
+    """Whitebox initial run: profile Python and write baseline + current snapshots."""
     languages = detect_languages()
     if not languages:
-        raise RuntimeError(f"No languages found under {SAMPLE_CODE_DIR}")
+        raise RuntimeError(f"No Python sources found under {PYTHON_SAMPLE_DIR}")
 
     manifest: dict[str, Any] = {
         "run_id": f"wb-initial-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
@@ -164,8 +141,8 @@ def run_initial_whitebox() -> dict[str, Any]:
     }
 
     for language in languages:
-        initial_path = write_repo_data(language, target="initial_run", run_type="initial")
-        current_path = write_repo_data(language, target="current", run_type="initial")
+        write_repo_data(language, target="initial_run", run_type="initial")
+        write_repo_data(language, target="current", run_type="initial")
         manifest["snapshots"][language] = {
             "initial_run": f"repo_data/initial_run/{language}.json",
             "current": f"repo_data/current/{language}.json",
@@ -176,8 +153,8 @@ def run_initial_whitebox() -> dict[str, Any]:
     return manifest
 
 
-def update_current_repo_data(language: str) -> dict[str, Any]:
-    """Re-profile language after a commit and refresh current snapshot."""
+def update_current_repo_data(language: str = SUPPORTED_LANGUAGE) -> dict[str, Any]:
+    """Re-profile Python after a commit and refresh current snapshot."""
     write_repo_data(language, target="current", run_type="commit_refresh")
     path = REPO_DATA_DIR / "current" / f"{language}.json"
     return json.loads(path.read_text(encoding="utf-8"))

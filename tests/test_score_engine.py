@@ -25,9 +25,9 @@ def test_all_six_control_flow_metrics_present():
     assert set(metrics.keys()) == set(METRIC_KEYS)
 
 
-def test_initial_run_writes_per_language_snapshots():
+def test_initial_run_writes_python_snapshot():
     manifest = run_initial_whitebox()
-    assert len(manifest["languages"]) == 5
+    assert manifest["languages"] == ["python"]
     for language in manifest["languages"]:
         initial = REPO_DATA_DIR / "initial_run" / f"{language}.json"
         current = REPO_DATA_DIR / "current" / f"{language}.json"
