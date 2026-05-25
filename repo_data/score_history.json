@@ -1,0 +1,114 @@
+[
+  {
+    "commit_sha": "abc123",
+    "language": "python",
+    "before_composite": 50.06,
+    "after_composite": 50.06,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T11:15:50.983670+00:00"
+  },
+  {
+    "commit_sha": "def456",
+    "language": "python",
+    "before_composite": 50.06,
+    "after_composite": 50.46,
+    "delta": 0.4,
+    "per_metric_delta": {
+      "execution_path_integrity": 2.22,
+      "decision_outcome_verification": -6.94,
+      "logical_subexpression_validation": 3.29,
+      "total_logical_combinatorial_coverage": 3.12,
+      "technical_debt_impact": 2.14,
+      "qa_resource_allocation": -1.24
+    },
+    "recorded_at": "2026-05-25T11:15:50.987575+00:00"
+  },
+  {
+    "commit_sha": "demo-bug-run",
+    "language": "csharp",
+    "before_composite": 43.38,
+    "after_composite": 43.38,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T11:15:51.047795+00:00"
+  },
+  {
+    "commit_sha": "demo-bug-run",
+    "language": "go",
+    "before_composite": 42.34,
+    "after_composite": 42.34,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T11:15:51.048385+00:00"
+  },
+  {
+    "commit_sha": "demo-bug-run",
+    "language": "java",
+    "before_composite": 42.46,
+    "after_composite": 42.46,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T11:15:51.048726+00:00"
+  },
+  {
+    "commit_sha": "demo-bug-run",
+    "language": "javascript",
+    "before_composite": 41.31,
+    "after_composite": 41.31,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T11:15:51.049053+00:00"
+  },
+  {
+    "commit_sha": "demo-bug-run",
+    "language": "python",
+    "before_composite": 50.06,
+    "after_composite": 50.06,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T11:15:51.049431+00:00"
+  }
+]

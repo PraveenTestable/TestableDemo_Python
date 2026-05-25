@@ -1,0 +1,43 @@
+{
+  "run_type": "initial",
+  "language": "javascript",
+  "profile": {
+    "language": "javascript",
+    "files": [
+      "sample_code/javascript/router.js"
+    ],
+    "file_count": 1,
+    "lines_of_code": 32,
+    "branch_points": 8,
+    "decision_nodes": 11,
+    "execution_paths": 9,
+    "covered_paths": 6,
+    "logical_subexpressions": 12,
+    "covered_subexpressions": 6,
+    "truth_table_rows": 64,
+    "covered_combinations": 12,
+    "verified_decisions": 4,
+    "cyclomatic_complexity": 9,
+    "test_assertions": 0,
+    "estimated_qa_hours": 1.0,
+    "profiled_at": "2026-05-25T11:15:29.479229+00:00"
+  },
+  "control_flow_metrics": {
+    "execution_path_integrity": 66.67,
+    "decision_outcome_verification": 36.36,
+    "logical_subexpression_validation": 50.0,
+    "total_logical_combinatorial_coverage": 18.75,
+    "technical_debt_impact": 66.25,
+    "qa_resource_allocation": 0.0
+  },
+  "metric_labels": {
+    "execution_path_integrity": "Execution Path Integrity",
+    "decision_outcome_verification": "Decision Outcome Verification",
+    "logical_subexpression_validation": "Logical Sub-expression Validation",
+    "total_logical_combinatorial_coverage": "Total Logical Combinatorial Coverage",
+    "technical_debt_impact": "Technical Debt Impact",
+    "qa_resource_allocation": "QA Resource Allocation"
+  },
+  "composite_score": 41.31,
+  "whitebox_domain": "control_flow_testing"
+}

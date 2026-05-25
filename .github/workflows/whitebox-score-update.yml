@@ -1,0 +1,34 @@
+name: Whitebox Score Update on Commit
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  whitebox-commit-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Whitebox initial run (if no repo_data)
+        run: |
+          if [ ! -f repo_data/initial_run_manifest.json ]; then
+            python -m whitebox.cli initial-run
+          fi
+
+      - name: Commit trigger — recompute Control Flow scores
+        run: python -m whitebox.cli on-commit --commit-sha "${{ github.sha }}"
+
+      - name: Upload score history artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: whitebox-score-history
+          path: repo_data/score_history.json

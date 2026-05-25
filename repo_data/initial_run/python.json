@@ -1,0 +1,43 @@
+{
+  "run_type": "initial",
+  "language": "python",
+  "profile": {
+    "language": "python",
+    "files": [
+      "sample_code/python/router.py"
+    ],
+    "file_count": 1,
+    "lines_of_code": 24,
+    "branch_points": 8,
+    "decision_nodes": 8,
+    "execution_paths": 9,
+    "covered_paths": 7,
+    "logical_subexpressions": 13,
+    "covered_subexpressions": 7,
+    "truth_table_rows": 64,
+    "covered_combinations": 14,
+    "verified_decisions": 5,
+    "cyclomatic_complexity": 9,
+    "test_assertions": 1,
+    "estimated_qa_hours": 1.0,
+    "profiled_at": "2026-05-25T11:15:29.480339+00:00"
+  },
+  "control_flow_metrics": {
+    "execution_path_integrity": 77.78,
+    "decision_outcome_verification": 62.5,
+    "logical_subexpression_validation": 53.85,
+    "total_logical_combinatorial_coverage": 21.88,
+    "technical_debt_impact": 55.0,
+    "qa_resource_allocation": 8.77
+  },
+  "metric_labels": {
+    "execution_path_integrity": "Execution Path Integrity",
+    "decision_outcome_verification": "Decision Outcome Verification",
+    "logical_subexpression_validation": "Logical Sub-expression Validation",
+    "total_logical_combinatorial_coverage": "Total Logical Combinatorial Coverage",
+    "technical_debt_impact": "Technical Debt Impact",
+    "qa_resource_allocation": "QA Resource Allocation"
+  },
+  "composite_score": 50.06,
+  "whitebox_domain": "control_flow_testing"
+}
