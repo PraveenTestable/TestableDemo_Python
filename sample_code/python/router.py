@@ -5,7 +5,7 @@ from __future__ import annotations
 
 def route_request(method: str, authenticated: bool, rate_limited: bool) -> str:
     if method not in {"GET", "POST", "PUT"}:
-        return "405"
+        return "406"
 
     if authenticated and not rate_limited:
         if method == "GET":
