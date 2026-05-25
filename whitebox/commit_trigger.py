@@ -1,10 +1,4 @@
-"""
-Commit trigger: re-profile repo and record Control Flow score updates.
-
-KNOWN BUG (see FIX.md):
-  on_commit() refreshes repo_data/current/ BEFORE capturing the prior snapshot,
-  so before and after are identical and every commit reports delta = 0.
-"""
+"""Commit trigger: re-profile repo and record Control Flow score updates."""
 
 from __future__ import annotations
 
@@ -43,10 +37,8 @@ def on_commit(commit_sha: str, changed_languages: list[str] | None = None) -> di
     }
 
     for language in languages:
-        # BUG: update runs before we capture the prior snapshot
-        after = update_current_repo_data(language)
         before = load_language_repo_data(language)
-
+        after = update_current_repo_data(language)
         delta = score_delta(before, after)
         entry = {
             "commit_sha": commit_sha,

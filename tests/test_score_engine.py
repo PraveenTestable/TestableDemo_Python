@@ -6,7 +6,6 @@ import json
 
 import pytest
 
-import whitebox.commit_trigger as commit_trigger
 from whitebox.metrics import METRIC_KEYS, compute_composite_score, compute_metrics_from_profile
 from whitebox.repo_profiler import REPO_DATA_DIR, build_language_repo_data, run_initial_whitebox
 from whitebox.commit_trigger import on_commit
@@ -39,32 +38,17 @@ def test_initial_run_writes_per_language_snapshots():
         assert 0 <= payload["composite_score"] <= 100
 
 
-def test_commit_trigger_bug_reports_zero_delta():
-    """Known bug: update before load makes before == after, delta always 0."""
+def test_commit_trigger_reports_zero_delta_when_unchanged():
+    """Unchanged source yields zero delta after capturing before snapshot."""
     run_initial_whitebox()
     result = on_commit("abc123", changed_languages=["python"])
     delta = result["languages"]["python"]["delta"]
     assert delta == 0.0
 
 
-def test_commit_trigger_fix_detects_score_change(monkeypatch):
-    """After fix (load before update), modified source yields non-zero delta."""
+def test_commit_trigger_detects_score_change():
+    """Modified source yields non-zero per-metric deltas on commit."""
     run_initial_whitebox()
-
-    original_on_commit = commit_trigger.on_commit
-
-    def fixed_on_commit(commit_sha, changed_languages=None):
-        languages = changed_languages or commit_trigger.detect_languages()
-        results = {"commit_sha": commit_sha, "trigger": "commit", "languages": {}}
-        for language in languages:
-            before = commit_trigger.load_language_repo_data(language)
-            after = commit_trigger.update_current_repo_data(language)
-            delta = __import__("whitebox.score_engine", fromlist=["score_delta"]).score_delta(before, after)
-            commit_trigger.append_score_history({"commit_sha": commit_sha, "language": language, **delta})
-            results["languages"][language] = delta
-        return results
-
-    monkeypatch.setattr(commit_trigger, "on_commit", fixed_on_commit)
 
     from pathlib import Path
 
@@ -78,9 +62,10 @@ def test_commit_trigger_fix_detects_score_change(monkeypatch):
         + "    return 'other'\n"
     )
     try:
-        result = fixed_on_commit("def456", changed_languages=["python"])
-        delta = result["languages"]["python"]["delta"]
-        assert delta != 0.0
+        result = on_commit("def456", changed_languages=["python"])
+        delta = result["languages"]["python"]
+        assert delta["delta"] != 0.0
+        assert any(value != 0.0 for value in delta["per_metric_delta"].values())
     finally:
         py_file.write_text(original)
 
