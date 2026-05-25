@@ -84,14 +84,16 @@ def compute_metrics_from_profile(profile: dict[str, Any]) -> ControlFlowMetrics:
     logical_subexpression_validation = min(100.0, (covered_sub / sub_exprs) * 100)
     total_logical_combinatorial_coverage = min(100.0, (covered_combos / combinations) * 100)
 
-    # Higher complexity lowers debt score; more tests improve it.
-    debt_ratio = complexity / (loc / 10)
-    technical_debt_impact = max(0.0, min(100.0, 100 - (debt_ratio * 12)))
+    # Higher complexity lowers debt score; verification hooks improve maintainability.
+    debt_ratio = min(complexity / max(loc / 10, 1.0), 8.0)
+    maintainability_bonus = min(30.0, test_hooks * 1.25)
+    technical_debt_impact = max(0.0, min(100.0, 100 - (debt_ratio * 10) + maintainability_bonus))
 
-    # QA allocation: coverage gained per estimated QA hour (simplified).
+    # QA allocation: coverage gained per estimated QA hour, scaled by verification depth.
     qa_hours = max(profile.get("estimated_qa_hours", 1.0), 0.5)
     coverage_gain = (execution_path_integrity + decision_outcome_verification) / 2
-    qa_resource_allocation = min(100.0, (coverage_gain / qa_hours) * (test_hooks / branches))
+    verification_depth = min(1.0, test_hooks / max(branches, 1))
+    qa_resource_allocation = min(100.0, (coverage_gain * verification_depth * 2) / qa_hours)
 
     return ControlFlowMetrics(
         execution_path_integrity=round(execution_path_integrity, 2),

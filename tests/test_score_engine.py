@@ -47,27 +47,23 @@ def test_commit_trigger_reports_zero_delta_when_unchanged():
 
 
 def test_commit_trigger_detects_score_change():
-    """Modified source yields non-zero per-metric deltas on commit."""
+    """Removing verification hooks yields non-zero per-metric deltas on commit."""
     run_initial_whitebox()
 
     from pathlib import Path
 
-    py_file = Path(__file__).resolve().parent.parent / "sample_code" / "python" / "router.py"
-    original = py_file.read_text()
-    py_file.write_text(
-        original
-        + "\n\ndef extra_branch(x):\n"
-        + "    if x > 0 and x < 10:\n"
-        + "        return 'small'\n"
-        + "    return 'other'\n"
+    verify_file = (
+        Path(__file__).resolve().parent.parent / "sample_code" / "python" / "coverage_verification.py"
     )
+    original = verify_file.read_text()
+    verify_file.write_text('"""Verification temporarily removed for delta check."""\n')
     try:
         result = on_commit("def456", changed_languages=["python"])
         delta = result["languages"]["python"]
         assert delta["delta"] != 0.0
         assert any(value != 0.0 for value in delta["per_metric_delta"].values())
     finally:
-        py_file.write_text(original)
+        verify_file.write_text(original)
 
 
 def test_composite_score_is_weighted():

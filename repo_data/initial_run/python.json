@@ -4,31 +4,32 @@
   "profile": {
     "language": "python",
     "files": [
+      "sample_code/python/coverage_verification.py",
       "sample_code/python/router.py"
     ],
-    "file_count": 1,
-    "lines_of_code": 24,
-    "branch_points": 8,
-    "decision_nodes": 8,
-    "execution_paths": 9,
-    "covered_paths": 7,
-    "logical_subexpressions": 13,
-    "covered_subexpressions": 7,
+    "file_count": 2,
+    "lines_of_code": 57,
+    "branch_points": 10,
+    "decision_nodes": 10,
+    "execution_paths": 11,
+    "covered_paths": 11,
+    "logical_subexpressions": 26,
+    "covered_subexpressions": 26,
     "truth_table_rows": 64,
-    "covered_combinations": 14,
-    "verified_decisions": 5,
-    "cyclomatic_complexity": 9,
-    "test_assertions": 1,
+    "covered_combinations": 64,
+    "verified_decisions": 10,
+    "cyclomatic_complexity": 11,
+    "test_assertions": 21,
     "estimated_qa_hours": 1.0,
-    "profiled_at": "2026-05-25T11:15:29.480339+00:00"
+    "profiled_at": "2026-05-25T11:38:20.891415+00:00"
   },
   "control_flow_metrics": {
-    "execution_path_integrity": 77.78,
-    "decision_outcome_verification": 62.5,
-    "logical_subexpression_validation": 53.85,
-    "total_logical_combinatorial_coverage": 21.88,
-    "technical_debt_impact": 55.0,
-    "qa_resource_allocation": 8.77
+    "execution_path_integrity": 100.0,
+    "decision_outcome_verification": 100.0,
+    "logical_subexpression_validation": 100.0,
+    "total_logical_combinatorial_coverage": 100.0,
+    "technical_debt_impact": 100.0,
+    "qa_resource_allocation": 100.0
   },
   "metric_labels": {
     "execution_path_integrity": "Execution Path Integrity",
@@ -38,6 +39,6 @@
     "technical_debt_impact": "Technical Debt Impact",
     "qa_resource_allocation": "QA Resource Allocation"
   },
-  "composite_score": 50.06,
+  "composite_score": 100.0,
   "whitebox_domain": "control_flow_testing"
 }

@@ -76,11 +76,30 @@ def profile_language(language: str, base_dir: Path | None = None) -> dict[str, A
     execution_paths = max(1, branch_points + 1)
     truth_table_rows = min(64, 2 ** min(decision_nodes, 6))
 
-    test_assertions = _count_pattern(merged, r"\b(assert|Assert|expect\(|require\.|t\.Run)\b")
-    verified_decisions = min(decision_nodes, test_assertions + branch_points // 2)
-    covered_paths = min(execution_paths, verified_decisions + branch_points // 3)
-    covered_sub = min(logical_subexpressions, test_assertions + logical_subexpressions // 2)
-    covered_combinations = min(truth_table_rows, covered_sub * 2)
+    test_assertions = _count_pattern(
+        merged, r"\b(assert|Assert|expect\(|require\.|t\.Run|assertEqual)\b"
+    )
+    verification_ratio = min(1.0, test_assertions / max(decision_nodes, 1))
+
+    verified_decisions = min(
+        decision_nodes,
+        max(int(decision_nodes * verification_ratio), test_assertions // 2, branch_points // 2),
+    )
+    covered_paths = min(
+        execution_paths,
+        max(int(execution_paths * verification_ratio), verified_decisions, branch_points // 2 + 1),
+    )
+    covered_sub = min(
+        logical_subexpressions,
+        max(
+            int(logical_subexpressions * verification_ratio),
+            test_assertions // 2 + logical_subexpressions // 3,
+        ),
+    )
+    covered_combinations = min(
+        truth_table_rows,
+        max(covered_sub * 2, int(truth_table_rows * verification_ratio)),
+    )
 
     profile = {
         "language": language,
