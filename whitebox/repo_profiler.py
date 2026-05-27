@@ -42,9 +42,14 @@ def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None =
 
     files: list[str] = []
     contents: list[str] = []
-    for path in lang_dir.rglob("*.py"):
-        files.append(str(path.relative_to(ROOT)))
-        contents.append(path.read_text(encoding="utf-8"))
+    scan_roots = [lang_dir, ROOT / "tests"]
+    for scan_root in scan_roots:
+        if not scan_root.exists():
+            continue
+        for path in scan_root.rglob("*.py"):
+            if path.is_file():
+                files.append(str(path.relative_to(ROOT)))
+                contents.append(path.read_text(encoding="utf-8"))
 
     merged = "\n".join(contents)
     loc = sum(1 for line in merged.splitlines() if line.strip())

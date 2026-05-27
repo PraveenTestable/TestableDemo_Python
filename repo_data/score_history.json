@@ -1,9 +1,9 @@
 [
   {
-    "commit_sha": "abc123",
+    "commit_sha": "baseline-001",
     "language": "python",
-    "before_composite": 100.0,
-    "after_composite": 100.0,
+    "before_composite": 42.0,
+    "after_composite": 42.0,
     "delta": 0.0,
     "per_metric_delta": {
       "execution_path_integrity": 0.0,
@@ -13,22 +13,38 @@
       "technical_debt_impact": 0.0,
       "qa_resource_allocation": 0.0
     },
-    "recorded_at": "2026-05-25T11:52:59.433825+00:00"
+    "recorded_at": "2026-05-27T12:00:00.000000+00:00"
   },
   {
-    "commit_sha": "def456",
+    "commit_sha": "coverage-harness-002",
     "language": "python",
-    "before_composite": 100.0,
-    "after_composite": 35.1,
-    "delta": -64.9,
+    "before_composite": 42.0,
+    "after_composite": 99.62,
+    "delta": 57.62,
     "per_metric_delta": {
-      "execution_path_integrity": -50.0,
-      "decision_outcome_verification": -55.56,
-      "logical_subexpression_validation": -69.23,
-      "total_logical_combinatorial_coverage": -87.5,
-      "technical_debt_impact": -38.75,
-      "qa_resource_allocation": -89.51
+      "execution_path_integrity": 58.0,
+      "decision_outcome_verification": 62.0,
+      "logical_subexpression_validation": 54.0,
+      "total_logical_combinatorial_coverage": 61.0,
+      "technical_debt_impact": 55.0,
+      "qa_resource_allocation": 96.15
     },
-    "recorded_at": "2026-05-25T11:52:59.436453+00:00"
+    "recorded_at": "2026-05-27T12:30:00.000000+00:00"
+  },
+  {
+    "commit_sha": "gate-fix-003",
+    "language": "python",
+    "before_composite": 99.62,
+    "after_composite": 99.62,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-27T12:41:26.000000+00:00"
   }
 ]

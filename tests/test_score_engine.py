@@ -52,18 +52,33 @@ def test_commit_trigger_detects_score_change():
 
     from pathlib import Path
 
-    verify_file = (
-        Path(__file__).resolve().parent.parent / "sample_code" / "python" / "coverage_verification.py"
-    )
-    original = verify_file.read_text()
+    root = Path(__file__).resolve().parent.parent
+    verify_file = root / "sample_code" / "python" / "coverage_verification.py"
+    router_file = root / "sample_code" / "python" / "router.py"
+    test_router = root / "tests" / "test_router.py"
+
+    originals = {
+        verify_file: verify_file.read_text(),
+        router_file: router_file.read_text(),
+        test_router: test_router.read_text(),
+    }
     verify_file.write_text('"""Verification temporarily removed for delta check."""\n')
+    test_router.write_text('"""Router tests temporarily removed for delta check."""\n')
+    router_file.write_text(
+        originals[router_file]
+        + "\n\ndef uncovered_branch(value: int) -> str:\n"
+        + "    if value > 0 and value < 10:\n"
+        + "        return 'small'\n"
+        + "    return 'large'\n"
+    )
     try:
         result = on_commit("def456", changed_languages=["python"])
         delta = result["languages"]["python"]
         assert delta["delta"] != 0.0
         assert any(value != 0.0 for value in delta["per_metric_delta"].values())
     finally:
-        verify_file.write_text(original)
+        for path, content in originals.items():
+            path.write_text(content)
 
 
 def test_composite_score_is_weighted():

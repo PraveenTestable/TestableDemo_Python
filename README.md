@@ -39,9 +39,9 @@ python -m whitebox.cli on-commit --commit-sha HEAD
 pytest tests/ -v
 ```
 
-## Known mistake & fix
+## Commit score delta
 
-See [FIX.md](FIX.md). The commit trigger **reprofiles before capturing the prior snapshot**, so `before` and `after` are always identical and deltas stay at `0.0`.
+See [FIX.md](FIX.md). The commit trigger captures the prior snapshot before re-profiling so metric deltas update correctly on each commit.
 
 ## CI
 
