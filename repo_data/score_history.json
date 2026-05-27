@@ -46,5 +46,59 @@
       "qa_resource_allocation": 0.0
     },
     "recorded_at": "2026-05-27T12:41:26.000000+00:00"
+  },
+  {
+    "commit_sha": "taxonomy-gate-fix-v2",
+    "language": "python",
+    "before_composite": 91.85,
+    "after_composite": 91.85,
+    "delta": 0.0,
+    "improved": false,
+    "regressed": false,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-27T12:58:57.324333+00:00"
+  },
+  {
+    "commit_sha": "taxonomy-gate-fix-v2",
+    "language": "python",
+    "before_composite": 100.0,
+    "after_composite": 100.0,
+    "delta": 0.0,
+    "improved": false,
+    "regressed": false,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-27T12:59:39.441808+00:00"
+  },
+  {
+    "commit_sha": "gate-fix-v3",
+    "language": "python",
+    "before_composite": 100.0,
+    "after_composite": 100.0,
+    "delta": 0.0,
+    "improved": false,
+    "regressed": false,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-27T13:01:10.863867+00:00"
   }
 ]

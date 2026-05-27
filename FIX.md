@@ -1,4 +1,4 @@
-# Commit score delta — resolved
+# Commit Score Delta — Resolved
 
 The commit trigger previously refreshed `repo_data/current/` before reading the prior
 snapshot, so score deltas were always zero.
@@ -16,10 +16,10 @@ delta = score_delta(before, after)
 ## Verify
 
 ```bash
-python -m whitebox.cli initial-run
-python -m whitebox.cli on-commit --commit-sha demo-fix-001
+python3 -m whitebox.cli initial-run
+python3 -m whitebox.cli on-commit --commit-sha demo-fix-001
 cat repo_data/score_history.json
 ```
 
-After source changes under `sample_code/python/`, rerun `on-commit` and confirm
+After modifying sources under `sample_code/python/`, rerun `on-commit` and confirm
 non-zero metric deltas in the score history.

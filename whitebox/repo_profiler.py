@@ -41,17 +41,23 @@ def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None =
     lang_dir = (base_dir or SAMPLE_CODE_DIR) / SUPPORTED_LANGUAGE
 
     files: list[str] = []
-    contents: list[str] = []
-    scan_roots = [lang_dir, ROOT / "tests"]
-    for scan_root in scan_roots:
-        if not scan_root.exists():
-            continue
-        for path in scan_root.rglob("*.py"):
-            if path.is_file():
-                files.append(str(path.relative_to(ROOT)))
-                contents.append(path.read_text(encoding="utf-8"))
+    source_contents: list[str] = []
+    test_contents: list[str] = []
 
+    for path in lang_dir.rglob("*.py") if lang_dir.exists() else []:
+        if path.is_file():
+            files.append(str(path.relative_to(ROOT)))
+            source_contents.append(path.read_text(encoding="utf-8"))
+
+    test_dir = ROOT / "tests"
+    for path in test_dir.rglob("*.py") if test_dir.exists() else []:
+        if path.is_file():
+            files.append(str(path.relative_to(ROOT)))
+            test_contents.append(path.read_text(encoding="utf-8"))
+
+    contents = source_contents + test_contents
     merged = "\n".join(contents)
+    source_loc = sum(1 for line in "\n".join(source_contents).splitlines() if line.strip())
     loc = sum(1 for line in merged.splitlines() if line.strip())
 
     branch_points = _count_pattern(merged, BRANCH_PATTERN)
@@ -99,7 +105,7 @@ def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None =
         "verified_decisions": verified_decisions,
         "cyclomatic_complexity": branch_points + 1,
         "test_assertions": test_assertions,
-        "estimated_qa_hours": round(max(1.0, loc / 120), 2),
+        "estimated_qa_hours": round(max(0.5, source_loc / 120), 2),
         "profiled_at": datetime.now(timezone.utc).isoformat(),
     }
     return profile

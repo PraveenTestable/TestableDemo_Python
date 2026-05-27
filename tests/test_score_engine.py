@@ -47,30 +47,20 @@ def test_commit_trigger_reports_zero_delta_when_unchanged():
 
 
 def test_commit_trigger_detects_score_change():
-    """Removing verification hooks yields non-zero per-metric deltas on commit."""
+    """Removing all test assertions produces non-zero per-metric deltas on commit."""
     run_initial_whitebox()
 
     from pathlib import Path
+    import glob as _glob
 
     root = Path(__file__).resolve().parent.parent
+    test_files = list((root / "tests").glob("*.py"))
     verify_file = root / "sample_code" / "python" / "coverage_verification.py"
-    router_file = root / "sample_code" / "python" / "router.py"
-    test_router = root / "tests" / "test_router.py"
 
-    originals = {
-        verify_file: verify_file.read_text(),
-        router_file: router_file.read_text(),
-        test_router: test_router.read_text(),
-    }
-    verify_file.write_text('"""Verification temporarily removed for delta check."""\n')
-    test_router.write_text('"""Router tests temporarily removed for delta check."""\n')
-    router_file.write_text(
-        originals[router_file]
-        + "\n\ndef uncovered_branch(value: int) -> str:\n"
-        + "    if value > 0 and value < 10:\n"
-        + "        return 'small'\n"
-        + "    return 'large'\n"
-    )
+    targets = test_files + [verify_file]
+    originals = {p: p.read_text() for p in targets}
+    for p in targets:
+        p.write_text('"""Temporarily removed for delta check."""\n')
     try:
         result = on_commit("def456", changed_languages=["python"])
         delta = result["languages"]["python"]

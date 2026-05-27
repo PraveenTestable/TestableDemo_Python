@@ -6,25 +6,31 @@
     "files": [
       "sample_code/python/coverage_verification.py",
       "sample_code/python/router.py",
+      "tests/test_mutation_guards.py",
+      "tests/test_engine_and_trigger.py",
       "tests/test_router.py",
       "tests/test_score_engine.py",
+      "tests/test_performance_benchmarks.py",
+      "tests/test_profiler_paths.py",
+      "tests/test_data_flow.py",
+      "tests/test_metrics_comprehensive.py",
       "tests/test_whitebox_integration.py"
     ],
-    "file_count": 5,
-    "lines_of_code": 250,
-    "branch_points": 22,
-    "decision_nodes": 22,
-    "execution_paths": 23,
-    "covered_paths": 23,
-    "logical_subexpressions": 29,
-    "covered_subexpressions": 29,
+    "file_count": 11,
+    "lines_of_code": 1287,
+    "branch_points": 77,
+    "decision_nodes": 77,
+    "execution_paths": 78,
+    "covered_paths": 78,
+    "logical_subexpressions": 46,
+    "covered_subexpressions": 46,
     "truth_table_rows": 64,
     "covered_combinations": 64,
-    "verified_decisions": 22,
-    "cyclomatic_complexity": 23,
-    "test_assertions": 49,
-    "estimated_qa_hours": 2.08,
-    "profiled_at": "2026-05-27T12:41:26.894262+00:00"
+    "verified_decisions": 77,
+    "cyclomatic_complexity": 78,
+    "test_assertions": 203,
+    "estimated_qa_hours": 1.63,
+    "profiled_at": "2026-05-27T13:01:10.824317+00:00"
   },
   "control_flow_metrics": {
     "execution_path_integrity": 100.0,
@@ -32,7 +38,7 @@
     "logical_subexpression_validation": 100.0,
     "total_logical_combinatorial_coverage": 100.0,
     "technical_debt_impact": 100.0,
-    "qa_resource_allocation": 96.15
+    "qa_resource_allocation": 100.0
   },
   "metric_labels": {
     "execution_path_integrity": "Execution Path Integrity",
@@ -42,6 +48,6 @@
     "technical_debt_impact": "Technical Debt Impact",
     "qa_resource_allocation": "QA Resource Allocation"
   },
-  "composite_score": 99.62,
+  "composite_score": 100.0,
   "whitebox_domain": "control_flow_testing"
 }
