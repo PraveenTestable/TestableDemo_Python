@@ -3,7 +3,7 @@
 Sample **Python-only** repository for **Testable Whitebox initial run** and **commit-triggered score updates**.
 
 ## Scenario
-
+s
 1. **Initial run** — Profile the repo, compute Control Flow metrics, and persist a snapshot under `repo_data/initial_run/python.json`.
 2. **Commit trigger** — On each commit, re-profile changed files, update `repo_data/current/python.json`, recompute metric deltas, and append to `repo_data/score_history.json`.
 
